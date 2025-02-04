@@ -1,7 +1,12 @@
 package com.fpt.bbusbe.controller.request;
 
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@ToString
 public class UserPasswordRequest {
-    private String id;
+    private Long id;
     private String password;
     private String confirmPassword;
 }

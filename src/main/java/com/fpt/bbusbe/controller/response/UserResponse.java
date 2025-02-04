@@ -1,5 +1,6 @@
 package com.fpt.bbusbe.controller.response;
 
+import com.fpt.bbusbe.common.Gender;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -14,8 +15,9 @@ import java.util.Date;
 @Data
 public class UserResponse implements Serializable {
     private Long id;
+    private String username;
     private String name;
-    private String gender;
+    private Gender gender;
     private Date dob;
     private String email;
     private String avatar;
