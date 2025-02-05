@@ -6,6 +6,7 @@ import com.fpt.bbusbe.controller.request.UserPasswordRequest;
 import com.fpt.bbusbe.controller.request.UserUpdateRequest;
 import com.fpt.bbusbe.controller.response.UserPageResponse;
 import com.fpt.bbusbe.controller.response.UserResponse;
+import com.fpt.bbusbe.exception.InvalidDataException;
 import com.fpt.bbusbe.exception.ResourceNotFoundException;
 import com.fpt.bbusbe.model.UserEntity;
 import com.fpt.bbusbe.repository.UserRepository;
@@ -101,6 +102,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long save(UserCreationRequest req) {
+
+        UserEntity userByEmail = userRepository.findByEmail(req.getEmail());
+        if (userByEmail != null) {
+            throw new InvalidDataException("User with this email: " + req.getEmail() + " already exists");
+        }
+
+        UserEntity userByName = userRepository.findByUsername(req.getUsername());
+        if (userByName != null) {
+            throw new InvalidDataException("User with this username: " + req.getUsername() + " already exists");
+        }
+
+
         UserEntity user = new UserEntity();
         user.setName(req.getName());
         user.setGender(req.getGender());
