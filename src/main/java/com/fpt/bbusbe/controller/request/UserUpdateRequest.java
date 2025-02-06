@@ -13,7 +13,6 @@ import java.util.Date;
 @Getter
 @ToString
 public class UserUpdateRequest implements Serializable {
-    @NotBlank(message = "username must not be blank")
     @Min(value = 1, message = "userId must be equal or greater than 1")
     private Long id;
 
