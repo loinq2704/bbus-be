@@ -5,7 +5,8 @@ spring:
   devtools:
     add-properties: true
   datasource:
-    url: jdbc:postgresql://postgres:5432/postgres
+    url: jdbc:postgresql://postgres:5432/postgres #for build docker
+#    url: jdbc:postgresql://localhost:5432/postgres #for running test
     username: postgres
     password: password
   jpa:
@@ -15,6 +16,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  sendGrid:
+    apiKey: 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
+    fromEmail: bbussystem.v1@gmail.com
 
 # application-dev.yml
 springdoc:
@@ -31,5 +35,4 @@ openapi:
 
 jwt:
   secretKey: abc@123
-server:
-  port: 1000
+
