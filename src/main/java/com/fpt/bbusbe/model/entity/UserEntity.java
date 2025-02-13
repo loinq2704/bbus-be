@@ -1,13 +1,12 @@
-package com.fpt.bbusbe.model;
+package com.fpt.bbusbe.model.entity;
 
-import com.fpt.bbusbe.common.Gender;
-import com.fpt.bbusbe.common.UserStatus;
-import com.fpt.bbusbe.common.UserType;
+import com.fpt.bbusbe.model.enums.Gender;
+import com.fpt.bbusbe.model.enums.UserStatus;
+import com.fpt.bbusbe.model.enums.UserType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;

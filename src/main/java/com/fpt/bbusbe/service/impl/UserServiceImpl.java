@@ -1,15 +1,16 @@
 package com.fpt.bbusbe.service.impl;
 
-import com.fpt.bbusbe.common.UserStatus;
-import com.fpt.bbusbe.controller.request.UserCreationRequest;
-import com.fpt.bbusbe.controller.request.UserPasswordRequest;
-import com.fpt.bbusbe.controller.request.UserUpdateRequest;
-import com.fpt.bbusbe.controller.response.UserPageResponse;
-import com.fpt.bbusbe.controller.response.UserResponse;
+import com.fpt.bbusbe.model.enums.UserStatus;
+import com.fpt.bbusbe.model.request.UserCreationRequest;
+import com.fpt.bbusbe.model.request.UserPasswordRequest;
+import com.fpt.bbusbe.model.request.UserUpdateRequest;
+import com.fpt.bbusbe.model.response.UserPageResponse;
+import com.fpt.bbusbe.model.response.UserResponse;
 import com.fpt.bbusbe.exception.InvalidDataException;
 import com.fpt.bbusbe.exception.ResourceNotFoundException;
-import com.fpt.bbusbe.model.UserEntity;
+import com.fpt.bbusbe.model.entity.UserEntity;
 import com.fpt.bbusbe.repository.UserRepository;
+import com.fpt.bbusbe.service.EmailService;
 import com.fpt.bbusbe.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Override
     public UserPageResponse findAll(String keyword, String sort, int page, int size) {
@@ -126,6 +129,14 @@ public class UserServiceImpl implements UserService {
         log.info("Saving user {}", user);
 
         userRepository.save(user);
+
+        // send email confirm
+        try {
+            emailService.emailVerification(req.getEmail(), req.getName());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return user.getId();
     }
 

@@ -1,10 +1,10 @@
 package com.fpt.bbusbe.controller;
 
 
-import com.fpt.bbusbe.controller.request.UserCreationRequest;
-import com.fpt.bbusbe.controller.request.UserPasswordRequest;
-import com.fpt.bbusbe.controller.request.UserUpdateRequest;
-import com.fpt.bbusbe.controller.response.UserResponse;
+import com.fpt.bbusbe.model.request.UserCreationRequest;
+import com.fpt.bbusbe.model.request.UserPasswordRequest;
+import com.fpt.bbusbe.model.request.UserUpdateRequest;
+import com.fpt.bbusbe.model.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;

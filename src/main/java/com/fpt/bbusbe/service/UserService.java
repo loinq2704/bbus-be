@@ -1,12 +1,10 @@
 package com.fpt.bbusbe.service;
 
-import com.fpt.bbusbe.controller.request.UserCreationRequest;
-import com.fpt.bbusbe.controller.request.UserPasswordRequest;
-import com.fpt.bbusbe.controller.request.UserUpdateRequest;
-import com.fpt.bbusbe.controller.response.UserPageResponse;
-import com.fpt.bbusbe.controller.response.UserResponse;
-
-import java.util.List;
+import com.fpt.bbusbe.model.request.UserCreationRequest;
+import com.fpt.bbusbe.model.request.UserPasswordRequest;
+import com.fpt.bbusbe.model.request.UserUpdateRequest;
+import com.fpt.bbusbe.model.response.UserPageResponse;
+import com.fpt.bbusbe.model.response.UserResponse;
 
 public interface UserService {
 

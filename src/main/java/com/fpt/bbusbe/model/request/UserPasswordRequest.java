@@ -1,4 +1,4 @@
-package com.fpt.bbusbe.controller.request;
+package com.fpt.bbusbe.model.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
