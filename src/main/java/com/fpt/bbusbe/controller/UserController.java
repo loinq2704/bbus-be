@@ -1,13 +1,14 @@
 package com.fpt.bbusbe.controller;
 
 
-import com.fpt.bbusbe.controller.request.UserCreationRequest;
-import com.fpt.bbusbe.controller.request.UserPasswordRequest;
-import com.fpt.bbusbe.controller.request.UserUpdateRequest;
-import com.fpt.bbusbe.controller.response.UserResponse;
+import com.fpt.bbusbe.model.request.UserCreationRequest;
+import com.fpt.bbusbe.model.request.UserPasswordRequest;
+import com.fpt.bbusbe.model.request.UserUpdateRequest;
+import com.fpt.bbusbe.model.response.UserResponse;
 import com.fpt.bbusbe.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -102,6 +104,19 @@ public class UserController {
         result.put("data", "");
         userService.changePassword(userPasswordRequest);
         return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/confirm-email")
+    public void confirmEmail(@RequestParam String secretCode, HttpServletResponse response) throws IOException {
+        log.info("Confirm email: {}", secretCode);
+
+        try {
+            // TODO check or compare secretCode from database
+        } catch (Exception e) {
+            log.error("Confirm email was failure!, errorMessage = {}", e.getMessage());
+        } finally {
+            response.sendRedirect("https://google.com");
+        }
     }
 
     @Operation(summary = "Delete user", description = "API inactivate user")

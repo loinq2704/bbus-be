@@ -1,6 +1,6 @@
-package com.fpt.bbusbe.controller.response;
+package com.fpt.bbusbe.model.response;
 
-import com.fpt.bbusbe.common.Gender;
+import com.fpt.bbusbe.model.enums.Gender;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;

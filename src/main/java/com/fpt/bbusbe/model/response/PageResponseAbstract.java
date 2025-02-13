@@ -1,4 +1,4 @@
-package com.fpt.bbusbe.controller.response;
+package com.fpt.bbusbe.model.response;
 
 import lombok.Getter;
 import lombok.Setter;

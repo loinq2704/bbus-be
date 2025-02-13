@@ -1,4 +1,4 @@
-package com.fpt.bbusbe.common;
+package com.fpt.bbusbe.model.enums;
 
 public enum UserStatus {
     NONE, ACTIVE, INACTIVE;

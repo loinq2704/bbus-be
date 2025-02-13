@@ -5,8 +5,8 @@ spring:
   devtools:
     add-properties: true
   datasource:
-    url: jdbc:postgresql://postgres:5432/postgres #for build docker
-#    url: jdbc:postgresql://localhost:5432/postgres #for running test
+#    url: jdbc:postgresql://postgres:5432/postgres #for build docker
+    url: jdbc:postgresql://localhost:5432/postgres #for running test
     username: postgres
     password: password
   jpa:
@@ -17,8 +17,10 @@ spring:
     hibernate:
       ddl-auto: update
   sendGrid:
-    apiKey: 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
+    apiKey: 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
     fromEmail: bbussystem.v1@gmail.com
+    templateId: d-1f92ab7c606c4875a6a98d950e9d0399
+    verificationLink: http://localhost:8080/user/confirm-email
 
 # application-dev.yml
 springdoc:
