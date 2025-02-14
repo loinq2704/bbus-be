@@ -1,10 +1,12 @@
 package com.fpt.bbusbe.service;
 
+import com.fpt.bbusbe.model.request.RegisterRequest;
 import com.fpt.bbusbe.model.request.UserCreationRequest;
 import com.fpt.bbusbe.model.request.UserPasswordRequest;
 import com.fpt.bbusbe.model.request.UserUpdateRequest;
 import com.fpt.bbusbe.model.response.UserPageResponse;
 import com.fpt.bbusbe.model.response.UserResponse;
+import jakarta.validation.Valid;
 
 public interface UserService {
 
@@ -23,4 +25,8 @@ public interface UserService {
     void delete(Long id);
 
     void changePassword(UserPasswordRequest req);
+
+    void changeStatus(@Valid UserUpdateRequest req);
+
+    Long register(RegisterRequest req);
 }

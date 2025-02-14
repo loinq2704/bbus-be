@@ -1,6 +1,8 @@
 package com.fpt.bbusbe.service.impl;
 
 import com.fpt.bbusbe.model.enums.UserStatus;
+import com.fpt.bbusbe.model.enums.UserType;
+import com.fpt.bbusbe.model.request.RegisterRequest;
 import com.fpt.bbusbe.model.request.UserCreationRequest;
 import com.fpt.bbusbe.model.request.UserPasswordRequest;
 import com.fpt.bbusbe.model.request.UserUpdateRequest;
@@ -142,6 +144,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public Long register(RegisterRequest req) {
+
+        UserEntity userByName = userRepository.findByUsername(req.getUsername());
+        if (userByName != null) {
+            throw new InvalidDataException("User with this username: " + req.getUsername() + " already exists");
+        }
+
+        UserEntity user = new UserEntity();
+        user.setName(req.getName());
+        user.setUsername(req.getUsername());
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
+        user.setType(UserType.USER);
+        user.setStatus(UserStatus.ACTIVE);
+        log.info("Registered user {}", user);
+
+        userRepository.save(user);
+
+        // send email confirm
+//        try {
+//            emailService.emailVerification(req.getEmail(), req.getName());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        return user.getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(UserUpdateRequest req) {
         log.info("Updating user {}", req);
         //get user by id
@@ -153,7 +184,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(req.getEmail());
         user.setPhone(req.getPhone());
         user.setUsername(req.getUsername());
-        user.setStatus(UserStatus.NONE);
+        user.setStatus(req.getStatus());
         userRepository.save(user);
 
     }
@@ -174,6 +205,18 @@ public class UserServiceImpl implements UserService {
 
         if (req.getPassword().equals(req.getConfirmPassword())) {
             user.setPassword(passwordEncoder.encode(req.getPassword()));
+        }
+        userRepository.save(user);
+        log.info("Changing password for user {}", user);
+    }
+
+    @Override
+    public void changeStatus(UserUpdateRequest req) {
+        //get user by id
+        UserEntity user = getUserEntity(req.getId());
+
+        if (req.getStatus() != null) {
+            user.setStatus(req.getStatus());
         }
         userRepository.save(user);
         log.info("Changing password for user {}", user);

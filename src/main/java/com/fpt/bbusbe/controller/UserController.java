@@ -106,6 +106,18 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
     }
 
+    @Operation(summary = "Update status", description = "API change status account for user")
+    @PatchMapping("/change-status")
+    public ResponseEntity<Object> changeStatus(@RequestBody @Valid UserUpdateRequest userUpdateRequest
+    ) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", HttpStatus.NO_CONTENT.value());
+        result.put("message", "user change status successfully");
+        result.put("data", "");
+        userService.changeStatus(userUpdateRequest);
+        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+    }
+
     @GetMapping("/confirm-email")
     public void confirmEmail(@RequestParam String secretCode, HttpServletResponse response) throws IOException {
         log.info("Confirm email: {}", secretCode);
