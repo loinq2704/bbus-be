@@ -5,8 +5,8 @@ spring:
   devtools:
     add-properties: true
   datasource:
-#    url: jdbc:postgresql://postgres:5432/postgres #for build docker
-    url: jdbc:postgresql://localhost:5432/postgres #for running test
+#    url: jdbc:postgresql://postgres:5432/bbus #for build docker
+    url: jdbc:postgresql://localhost:5432/bbus #for running test
     username: postgres
     password: password
   jpa:
@@ -15,7 +15,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   sendGrid:
     apiKey: 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
     fromEmail: bbussystem.v1@gmail.com
@@ -35,6 +35,12 @@ openapi:
     title: Backend for bbus
     version: 1.0.0
 
+# Generate HMAC Authentication Code: https://www.devglan.com/online-tools/hmac-sha256-online
 jwt:
-  secretKey: abc@123
+  expiryMinutes: 60
+  expiryDay: 14
+  accessKey: 0n7DdBQLmxxWo+3yIuTGfMvEr1ZVhqM7lI9jzCfN1Ps=
+  refreshKey: XGTgA+M/suH/HcW/a6B6Dc78VxCGHDPGbsOXPZUfWE0=
+#  secretKey: EnricVan
+
 
