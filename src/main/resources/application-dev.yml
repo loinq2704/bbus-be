@@ -37,7 +37,7 @@ openapi:
 
 # Generate HMAC Authentication Code: https://www.devglan.com/online-tools/hmac-sha256-online
 jwt:
-  expiryMinutes: 60
+  expiryMinutes: 1
   expiryDay: 14
   accessKey: 0n7DdBQLmxxWo+3yIuTGfMvEr1ZVhqM7lI9jzCfN1Ps=
   refreshKey: XGTgA+M/suH/HcW/a6B6Dc78VxCGHDPGbsOXPZUfWE0=

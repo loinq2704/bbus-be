@@ -10,7 +10,7 @@ import com.fpt.bbusbe.model.response.UserPageResponse;
 import com.fpt.bbusbe.model.response.UserResponse;
 import com.fpt.bbusbe.exception.InvalidDataException;
 import com.fpt.bbusbe.exception.ResourceNotFoundException;
-import com.fpt.bbusbe.model.entity.UserEntity;
+import com.fpt.bbusbe.model.entity.User;
 import com.fpt.bbusbe.repository.UserRepository;
 import com.fpt.bbusbe.service.EmailService;
 import com.fpt.bbusbe.service.UserService;
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
         // Paging
         Pageable pageable = PageRequest.of(pageNo, size, Sort.by(order));
 
-        Page<UserEntity> entityPage;
+        Page<User> entityPage;
 
         if (StringUtils.hasLength(keyword)) {
             keyword = "%" + keyword.toLowerCase() + "%";
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse findById(Long id) {
-        UserEntity user = getUserEntity(id);
+        User user = getUserEntity(id);
         return UserResponse.builder()
                 .id(id)
                 .name(user.getName())
@@ -108,24 +108,25 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public Long save(UserCreationRequest req) {
 
-        UserEntity userByEmail = userRepository.findByEmail(req.getEmail());
+        User userByEmail = userRepository.findByEmail(req.getEmail());
         if (userByEmail != null) {
             throw new InvalidDataException("User with this email: " + req.getEmail() + " already exists");
         }
 
-        UserEntity userByName = userRepository.findByUsername(req.getUsername());
+        User userByName = userRepository.findByUsername(req.getUsername());
         if (userByName != null) {
             throw new InvalidDataException("User with this username: " + req.getUsername() + " already exists");
         }
 
 
-        UserEntity user = new UserEntity();
+        User user = new User();
         user.setName(req.getName());
         user.setGender(req.getGender());
         user.setDob(req.getDob());
         user.setEmail(req.getEmail());
         user.setPhone(req.getPhone());
         user.setUsername(req.getUsername());
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
         user.setType(req.getType());
         user.setStatus(UserStatus.NONE);
         log.info("Saving user {}", user);
@@ -146,12 +147,12 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public Long register(RegisterRequest req) {
 
-        UserEntity userByName = userRepository.findByUsername(req.getUsername());
+        User userByName = userRepository.findByUsername(req.getUsername());
         if (userByName != null) {
             throw new InvalidDataException("User with this username: " + req.getUsername() + " already exists");
         }
 
-        UserEntity user = new UserEntity();
+        User user = new User();
         user.setName(req.getName());
         user.setUsername(req.getUsername());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
@@ -176,7 +177,7 @@ public class UserServiceImpl implements UserService {
     public void update(UserUpdateRequest req) {
         log.info("Updating user {}", req);
         //get user by id
-        UserEntity user = getUserEntity(req.getId());
+        User user = getUserEntity(req.getId());
         //set data
         user.setName(req.getName());
         user.setGender(req.getGender());
@@ -192,7 +193,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         //get user by id
-        UserEntity user = getUserEntity(id);
+        User user = getUserEntity(id);
         user.setStatus(UserStatus.INACTIVE);
         userRepository.save(user);
         log.info("Deleted user {}", id);
@@ -201,7 +202,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(UserPasswordRequest req) {
         //get user by id
-        UserEntity user = getUserEntity(req.getId());
+        User user = getUserEntity(req.getId());
 
         if (req.getPassword().equals(req.getConfirmPassword())) {
             user.setPassword(passwordEncoder.encode(req.getPassword()));
@@ -213,7 +214,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeStatus(UserUpdateRequest req) {
         //get user by id
-        UserEntity user = getUserEntity(req.getId());
+        User user = getUserEntity(req.getId());
 
         if (req.getStatus() != null) {
             user.setStatus(req.getStatus());
@@ -227,7 +228,7 @@ public class UserServiceImpl implements UserService {
      * @param id
      * @return
      */
-    private UserEntity getUserEntity(Long id) {
+    private User getUserEntity(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
@@ -239,7 +240,7 @@ public class UserServiceImpl implements UserService {
      * @param userEntities
      * @return
      */
-    private static UserPageResponse getUserPageResponse(int page, int size, Page<UserEntity> userEntities) {
+    private static UserPageResponse getUserPageResponse(int page, int size, Page<User> userEntities) {
         log.info("Convert User Entity Page");
 
         List<UserResponse> userList = userEntities.stream().map(entity -> UserResponse.builder()

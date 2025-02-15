@@ -14,10 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 import static com.fpt.bbusbe.model.enums.TokenType.ACCESS_TOKEN;
@@ -40,22 +37,20 @@ public class JwtServiceImpl implements JwtService {
     private String refreshKey;
 
     @Override
-    public String generateAccessToken(long userId, String username, Collection<? extends GrantedAuthority> authorities) {
-        log.info("Generate access token for user {} with authorities {}", userId, authorities);
+    public String generateAccessToken(String username, List<String> authorities) {
+        log.info("Generate access token for user {} with authorities {}", authorities);
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", userId);
         claims.put("role", authorities);
 
         return generateToken(claims, username);
     }
 
     @Override
-    public String generateRefreshToken(long userId, String username, Collection<? extends GrantedAuthority> authorities) {
+    public String generateRefreshToken(String username, List<String> authorities) {
         log.info("Generate refresh token");
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", userId);
         claims.put("role", authorities);
 
         return generateRefreshToken(claims, username);
