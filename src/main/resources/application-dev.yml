@@ -5,8 +5,8 @@ spring:
   devtools:
     add-properties: true
   datasource:
-#    url: jdbc:postgresql://postgres:5432/bbus #for build docker
-    url: jdbc:postgresql://localhost:5432/bbus #for running test
+    url: jdbc:postgresql://postgres:5432/bbus #for build docker
+#    url: jdbc:postgresql://localhost:5432/bbus #for running test
     username: postgres
     password: password
   jpa:
