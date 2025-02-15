@@ -15,6 +15,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Component
 @Slf4j(topic = "CUSTOMIZE-REQUEST-FILTER")
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class CustomizeRequestFilter extends OncePerRequestFilter {
 
 

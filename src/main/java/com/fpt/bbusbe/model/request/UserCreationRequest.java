@@ -16,6 +16,8 @@ public class UserCreationRequest implements Serializable {
     @NotBlank(message = "username must not be blank")
     private String username;
 
+    private String password;
+
     @NotBlank(message = "name must not be blank")
     private String name;
 
