@@ -8,6 +8,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -106,7 +107,7 @@ public class GlobalException {
      * @return errorResponse
      */
     @ExceptionHandler({ConstraintViolationException.class,
-            MissingServletRequestParameterException.class, MethodArgumentNotValidException.class})
+            MissingServletRequestParameterException.class, MethodArgumentNotValidException.class, HttpMessageNotReadableException.class})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "400", description = "Bad Request",
                     content = {@Content(mediaType = APPLICATION_JSON_VALUE,
@@ -158,7 +159,7 @@ public class GlobalException {
      * @param request
      * @return
      */
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler({ResourceNotFoundException.class})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Not Found",
                     content = {@Content(mediaType = APPLICATION_JSON_VALUE,
@@ -176,7 +177,7 @@ public class GlobalException {
                                             """
                             ))})
     })
-    public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException e, WebRequest request) {
+    public ErrorResponse handleResourceNotFoundException(Exception e, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setTimestamp(new Date());
         errorResponse.setPath(request.getDescription(false).replace("uri=", ""));

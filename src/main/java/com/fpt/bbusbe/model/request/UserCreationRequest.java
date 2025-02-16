@@ -1,6 +1,7 @@
 package com.fpt.bbusbe.model.request;
 
 import com.fpt.bbusbe.model.enums.Gender;
+import com.fpt.bbusbe.model.enums.Role;
 import com.fpt.bbusbe.model.enums.UserType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -18,19 +19,22 @@ public class UserCreationRequest implements Serializable {
 
     private String password;
 
+    @Email(message = "Email is invalid format!")
+    private String email;
+
+    private String phone;
+
     @NotBlank(message = "name must not be blank")
     private String name;
+
+    private String address;
 
     private Gender gender;
 
     private Date dob;
 
-    @Email(message = "Email invalid")
-    private String email;
-
     private String avatar;
 
-    private String phone;
+    private Role role;
 
-    private UserType type;
 }

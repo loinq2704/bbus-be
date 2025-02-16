@@ -1,6 +1,9 @@
 package com.fpt.bbusbe.service.impl;
 
+import com.fpt.bbusbe.model.entity.Role;
+import com.fpt.bbusbe.model.entity.UserHasRole;
 import com.fpt.bbusbe.model.enums.UserStatus;
+import com.fpt.bbusbe.model.enums.UserType;
 import com.fpt.bbusbe.model.request.UserCreationRequest;
 import com.fpt.bbusbe.model.request.UserPasswordRequest;
 import com.fpt.bbusbe.model.request.UserUpdateRequest;
@@ -9,6 +12,8 @@ import com.fpt.bbusbe.model.response.UserResponse;
 import com.fpt.bbusbe.exception.InvalidDataException;
 import com.fpt.bbusbe.exception.ResourceNotFoundException;
 import com.fpt.bbusbe.model.entity.User;
+import com.fpt.bbusbe.repository.RoleRepository;
+import com.fpt.bbusbe.repository.UserHasRoleRepository;
 import com.fpt.bbusbe.repository.UserRepository;
 import com.fpt.bbusbe.service.EmailService;
 import com.fpt.bbusbe.service.UserService;
@@ -34,6 +39,8 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserHasRoleRepository userHasRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
@@ -117,6 +124,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
+        // insert into tbl_user
         User user = new User();
         user.setName(req.getName());
         user.setGender(req.getGender());
@@ -125,11 +133,19 @@ public class UserServiceImpl implements UserService {
         user.setPhone(req.getPhone());
         user.setUsername(req.getUsername());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
-        user.setType(req.getType());
-        user.setStatus(UserStatus.NONE);
+        user.setAddress(req.getAddress());
+        user.setAvatar(req.getAvatar());
+        user.setType(UserType.USER);
+        user.setStatus(UserStatus.ACTIVE);
         log.info("Saving user {}", user);
 
         userRepository.save(user);
+
+        //insert into tbl_user_has_role
+        Role role = roleRepository.findByName(req.getRole().toString())
+                .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
+        UserHasRole userHasRole = new UserHasRole(user, role);
+        userHasRoleRepository.save(userHasRole);
 
         // send email confirm
         try {
