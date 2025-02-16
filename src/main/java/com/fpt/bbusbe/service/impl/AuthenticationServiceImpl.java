@@ -4,6 +4,7 @@ import com.fpt.bbusbe.exception.ForBiddenException;
 import com.fpt.bbusbe.exception.InvalidDataException;
 import com.fpt.bbusbe.model.entity.User;
 import com.fpt.bbusbe.model.request.SignInRequest;
+import com.fpt.bbusbe.model.response.LoginResponse;
 import com.fpt.bbusbe.model.response.TokenResponse;
 import com.fpt.bbusbe.repository.UserRepository;
 import com.fpt.bbusbe.service.AuthenticationService;
@@ -33,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public TokenResponse getAccessToken(SignInRequest request) {
+    public LoginResponse login(SignInRequest request) {
         log.info("Get access token");
 
         List<String> authorities = new ArrayList<>();
@@ -52,10 +53,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new InternalAuthenticationServiceException(e.getMessage());
         }
 
+//        String accessToken = jwtService.generateAccessToken(request.getUsername(), authorities);
+//        String refreshToken = jwtService.generateRefreshToken(request.getUsername(), authorities);
+//
+//        return TokenResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+
         String accessToken = jwtService.generateAccessToken(request.getUsername(), authorities);
         String refreshToken = jwtService.generateRefreshToken(request.getUsername(), authorities);
+        String message = "Login successful";
 
-        return TokenResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+        return LoginResponse.builder().access_token(accessToken).refresh_token(refreshToken).message(message).build();
     }
 
     @Override

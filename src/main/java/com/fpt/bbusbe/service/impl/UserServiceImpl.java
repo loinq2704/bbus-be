@@ -1,8 +1,6 @@
 package com.fpt.bbusbe.service.impl;
 
 import com.fpt.bbusbe.model.enums.UserStatus;
-import com.fpt.bbusbe.model.enums.UserType;
-import com.fpt.bbusbe.model.request.RegisterRequest;
 import com.fpt.bbusbe.model.request.UserCreationRequest;
 import com.fpt.bbusbe.model.request.UserPasswordRequest;
 import com.fpt.bbusbe.model.request.UserUpdateRequest;
@@ -139,35 +137,6 @@ public class UserServiceImpl implements UserService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        return user.getId();
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Long register(RegisterRequest req) {
-
-        User userByName = userRepository.findByUsername(req.getUsername());
-        if (userByName != null) {
-            throw new InvalidDataException("User with this username: " + req.getUsername() + " already exists");
-        }
-
-        User user = new User();
-        user.setName(req.getName());
-        user.setUsername(req.getUsername());
-        user.setPassword(passwordEncoder.encode(req.getPassword()));
-        user.setType(UserType.USER);
-        user.setStatus(UserStatus.ACTIVE);
-        log.info("Registered user {}", user);
-
-        userRepository.save(user);
-
-        // send email confirm
-//        try {
-//            emailService.emailVerification(req.getEmail(), req.getName());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
 
         return user.getId();
     }

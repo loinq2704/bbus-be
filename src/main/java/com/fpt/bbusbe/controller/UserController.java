@@ -119,11 +119,11 @@ public class UserController {
     public ResponseEntity<Object> changePassword(@RequestBody @Valid UserPasswordRequest userPasswordRequest
     ) {
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("status", HttpStatus.NO_CONTENT.value());
+        result.put("status", HttpStatus.ACCEPTED.value());
         result.put("message", "user change password successfully");
         result.put("data", "");
         userService.changePassword(userPasswordRequest);
-        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 
     @Operation(summary = "Update status", description = "API change status account for user")
@@ -132,11 +132,11 @@ public class UserController {
     public ResponseEntity<Object> changeStatus(@RequestBody @Valid UserUpdateRequest userUpdateRequest
     ) {
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("status", HttpStatus.NO_CONTENT.value());
+        result.put("status", HttpStatus.ACCEPTED.value());
         result.put("message", "user change status successfully");
         result.put("data", "");
         userService.changeStatus(userUpdateRequest);
-        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/confirm-email")
@@ -163,11 +163,11 @@ public class UserController {
         userService.delete(id);
 
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("status", HttpStatus.RESET_CONTENT.value());
+        result.put("status", HttpStatus.ACCEPTED.value());
         result.put("message", "user deleted successfully");
         result.put("data", "");
 
-        return new ResponseEntity<>(result, HttpStatus.RESET_CONTENT);
+        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 
 }
