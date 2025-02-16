@@ -1,6 +1,5 @@
 package com.fpt.bbusbe.service;
 
-import com.fpt.bbusbe.model.request.RegisterRequest;
 import com.fpt.bbusbe.model.request.UserCreationRequest;
 import com.fpt.bbusbe.model.request.UserPasswordRequest;
 import com.fpt.bbusbe.model.request.UserUpdateRequest;
@@ -28,5 +27,4 @@ public interface UserService {
 
     void changeStatus(@Valid UserUpdateRequest req);
 
-    Long register(RegisterRequest req);
 }

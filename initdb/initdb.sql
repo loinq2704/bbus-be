@@ -293,12 +293,12 @@ INSERT INTO public.tbl_permission (id, created_at, updated_at, category, descrip
 -- Data for Name: tbl_role; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (1, NULL, NULL, NULL, 'SYSADMIN');
-INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (2, NULL, NULL, NULL, 'PARENT');
-INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (3, NULL, NULL, NULL, 'TEACHER');
-INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (4, NULL, NULL, NULL, 'BUS_DRIVER');
-INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (5, NULL, NULL, NULL, 'ADMIN');
-INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (6, NULL, NULL, NULL, 'ASSISTANT_DRIVER');
+INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (1, NULL, NULL, NULL, 'sysadmin');
+INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (4, NULL, NULL, NULL, 'busdriver');
+INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (6, NULL, NULL, NULL, 'assistant_driver');
+INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (3, NULL, NULL, NULL, 'teacher');
+INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (5, NULL, NULL, NULL, 'admin');
+INSERT INTO public.tbl_role (id, created_at, updated_at, description, name) VALUES (2, NULL, NULL, NULL, 'parent');
 
 
 --

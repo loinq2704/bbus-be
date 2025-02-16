@@ -71,7 +71,7 @@ public class GlobalException {
      */
     @ExceptionHandler({ForBiddenException.class, AccessDeniedException.class})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "403", description = "Access Dined",
+            @ApiResponse(responseCode = "403", description = "Forbidden",
                     content = {@Content(mediaType = APPLICATION_JSON_VALUE,
                             examples = @ExampleObject(
                                     name = "403 Response",
@@ -81,7 +81,7 @@ public class GlobalException {
                                               "timestamp": "2023-10-19T06:07:35.321+00:00",
                                               "status": 403,
                                               "path": "/api/v1/...",
-                                              "error": "Access Dined",
+                                              "error": "Forbidden",
                                               "message": "Access is denied",
                                             }
                                             """
