@@ -1,8 +1,12 @@
 package com.fpt.bbusbe.mqtt.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fpt.bbusbe.model.entity.Camera;
+import com.fpt.bbusbe.model.entity.key.CameraKey;
 import com.fpt.bbusbe.mqtt.model.BasicMessage;
 import com.fpt.bbusbe.mqtt.model.HeartbeatMessage;
+import com.fpt.bbusbe.service.CameraService;
+import com.fpt.bbusbe.util.DateTimeUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,8 +14,11 @@ public class MqttMessageService {
 
     private final ObjectMapper objectMapper;
 
-    public MqttMessageService(ObjectMapper objectMapper) {
+    private final CameraService cameraService;
+
+    public MqttMessageService(ObjectMapper objectMapper, CameraService cameraService) {
         this.objectMapper = objectMapper;
+        this.cameraService = cameraService;
     }
 
     // Method to process message based on topic
@@ -44,6 +51,15 @@ public class MqttMessageService {
         System.out.println("Face Name: " + message.getInfo().getFacesname());
 
         // Add your custom logic here (e.g., save to a database, send notifications, etc.)
+        CameraKey cameraKey = new CameraKey();
+        cameraKey.setOperator(message.getOperator());
+        cameraKey.setFacesluiceId(message.getInfo().getFacesluiceId());
+
+        Camera camera = new Camera();
+        camera.setKey(cameraKey);
+        camera.setTime(DateTimeUtils.convertToLocalDateTime(message.getInfo().getTime()));
+
+        cameraService.createOrUpdateCamera(camera);
     }
 
     // Handle heartbeat message
@@ -54,5 +70,14 @@ public class MqttMessageService {
         System.out.println("Time: " + message.getInfo().getTime());
 
         // Add your custom logic here (e.g., update device status, log heartbeat, etc.)
+        CameraKey cameraKey = new CameraKey();
+        cameraKey.setOperator(message.getOperator());
+        cameraKey.setFacesluiceId(message.getInfo().getFacesluiceId());
+
+        Camera camera = new Camera();
+        camera.setKey(cameraKey);
+        camera.setTime(DateTimeUtils.convertToLocalDateTime(message.getInfo().getTime()));
+
+        cameraService.createOrUpdateCamera(camera);
     }
 }
