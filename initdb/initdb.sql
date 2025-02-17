@@ -224,6 +224,16 @@ CREATE TABLE public.tbl_user_has_role (
     user_id bigint
 );
 
+CREATE TABLE public.tbl_camera (
+    facesluice_id VARCHAR(255) NOT NULL,
+    operator VARCHAR(255) NOT NULL,
+    time timestamp,
+    created_at timestamp(6) without time zone,
+    updated_at timestamp(6) without time zone,
+    PRIMARY KEY (facesluice_id, operator)
+);
+
+
 
 --
 -- Name: tbl_user_has_role_id_seq; Type: SEQUENCE; Schema: public; Owner: -

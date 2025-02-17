@@ -44,3 +44,16 @@ jwt:
 #  secretKey: EnricVan
 
 
+
+mqtt:
+  # MQTT Broker Configuration
+  broker-url: tcp://3.1.102.2:1883
+  username: admin
+  password: admin
+  client-id: springBootClient
+  clean-session: true
+  # Optional properties
+  connection-timeout: 10
+  keep-alive: 60
+  # Request and Response Topics
+  topic: '#'
