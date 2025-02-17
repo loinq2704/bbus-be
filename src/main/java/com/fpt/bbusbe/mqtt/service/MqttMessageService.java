@@ -2,7 +2,6 @@ package com.fpt.bbusbe.mqtt.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fpt.bbusbe.model.entity.Camera;
-import com.fpt.bbusbe.model.entity.key.CameraKey;
 import com.fpt.bbusbe.mqtt.model.BasicMessage;
 import com.fpt.bbusbe.mqtt.model.HeartbeatMessage;
 import com.fpt.bbusbe.service.CameraService;
@@ -51,13 +50,11 @@ public class MqttMessageService {
         System.out.println("Face Name: " + message.getInfo().getFacesname());
 
         // Add your custom logic here (e.g., save to a database, send notifications, etc.)
-        CameraKey cameraKey = new CameraKey();
-        cameraKey.setOperator(message.getOperator());
-        cameraKey.setFacesluiceId(message.getInfo().getFacesluiceId());
-
-        Camera camera = new Camera();
-        camera.setKey(cameraKey);
-        camera.setTime(DateTimeUtils.convertToLocalDateTime(message.getInfo().getTime()));
+        Camera camera = cameraService.findOne(message.getInfo().getFacesluiceId());
+        if (camera == null) {
+            camera = new Camera();
+        }
+        camera.setTimeBasic(DateTimeUtils.convertToLocalDateTime(message.getInfo().getTime()));
 
         cameraService.createOrUpdateCamera(camera);
     }
@@ -70,13 +67,11 @@ public class MqttMessageService {
         System.out.println("Time: " + message.getInfo().getTime());
 
         // Add your custom logic here (e.g., update device status, log heartbeat, etc.)
-        CameraKey cameraKey = new CameraKey();
-        cameraKey.setOperator(message.getOperator());
-        cameraKey.setFacesluiceId(message.getInfo().getFacesluiceId());
-
-        Camera camera = new Camera();
-        camera.setKey(cameraKey);
-        camera.setTime(DateTimeUtils.convertToLocalDateTime(message.getInfo().getTime()));
+        Camera camera = cameraService.findOne(message.getInfo().getFacesluiceId());
+        if (camera == null) {
+            camera = new Camera();
+        }
+        camera.setTimeHeartbeat(DateTimeUtils.convertToLocalDateTime(message.getInfo().getTime()));
 
         cameraService.createOrUpdateCamera(camera);
     }
