@@ -58,8 +58,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 //
 //        return TokenResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
 
-        String accessToken = jwtService.generateAccessToken(request.getUsername(), authorities);
-        String refreshToken = jwtService.generateRefreshToken(request.getUsername(), authorities);
+        User user = userRepository.findByUsername(request.getUsername());
+
+        String accessToken = jwtService.generateAccessToken(request.getUsername(), user.getId(), authorities);
+        String refreshToken = jwtService.generateRefreshToken(request.getUsername(), user.getId(), authorities);
         String message = "Login successful";
 
         return LoginResponse.builder().access_token(accessToken).refresh_token(refreshToken).message(message).build();
@@ -83,7 +85,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user.getAuthorities().forEach(authority -> authorities.add(authority.getAuthority()));
 
             // generate new access token
-            String accessToken = jwtService.generateAccessToken(user.getUsername(), authorities);
+            String accessToken = jwtService.generateAccessToken(user.getUsername(), user.getId(), authorities);
 
             return TokenResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
         } catch (Exception e) {
