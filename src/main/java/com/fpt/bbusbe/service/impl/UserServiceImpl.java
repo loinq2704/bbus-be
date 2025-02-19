@@ -17,6 +17,7 @@ import com.fpt.bbusbe.repository.UserHasRoleRepository;
 import com.fpt.bbusbe.repository.UserRepository;
 import com.fpt.bbusbe.service.EmailService;
 import com.fpt.bbusbe.service.UserService;
+import com.fpt.bbusbe.utils.ExcelHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,11 +29,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j(topic = "USER-SERVICE")
@@ -112,8 +118,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long save(UserCreationRequest req) {
-
+    public User save(UserCreationRequest req) {
         User userByEmail = userRepository.findByEmail(req.getEmail());
         if (userByEmail != null) {
             throw new InvalidDataException("User with this email: " + req.getEmail() + " already exists");
@@ -122,6 +127,11 @@ public class UserServiceImpl implements UserService {
         User userByName = userRepository.findByUsername(req.getUsername());
         if (userByName != null) {
             throw new InvalidDataException("User with this username: " + req.getUsername() + " already exists");
+        }
+
+        User userByPhone = userRepository.findByPhone(req.getPhone());
+        if (userByPhone != null) {
+            throw new InvalidDataException("User with this phone: " + req.getPhone() + " already exists");
         }
 
 
@@ -142,11 +152,15 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        //insert into tbl_user_has_role
+        // insert into tbl_user_has_role
         Role role = roleRepository.findByName(req.getRole().toString())
                 .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
         UserHasRole userHasRole = new UserHasRole(user, role);
         userHasRoleRepository.save(userHasRole);
+
+        Set<UserHasRole> userHasRoles = new HashSet<>();
+        userHasRoles.add(userHasRole);
+        user.setRoles(userHasRoles);
 
         // send email confirm
         try {
@@ -155,7 +169,13 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
 
-        return user.getId();
+        return user;
+    }
+
+    @Override
+    public List<User> importUsersFromFile(MultipartFile file) {
+        List<UserCreationRequest> req = ExcelHelper.excelToUsers(file);
+        return req.stream().map(this::save).collect(Collectors.toList());
     }
 
     @Override
@@ -211,6 +231,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Get user by id
+     *
      * @param id
      * @return
      */

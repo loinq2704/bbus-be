@@ -1,5 +1,6 @@
 package com.fpt.bbusbe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fpt.bbusbe.model.enums.Gender;
 import com.fpt.bbusbe.model.enums.UserStatus;
 import com.fpt.bbusbe.model.enums.UserType;
@@ -89,12 +90,15 @@ public class User extends AbstractEntity<Long> implements UserDetails, Serializa
     private UserStatus status;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<UserHasRole> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<GroupHasUser> groups = new HashSet<>();
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         // Get role
@@ -134,4 +138,5 @@ public class User extends AbstractEntity<Long> implements UserDetails, Serializa
                 .map(Role::getName)
                 .toList();
     }
+
 }

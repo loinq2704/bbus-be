@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
@@ -88,10 +89,27 @@ public class UserController {
     ) {
         log.info("Create user: {}", userCreationRequest);
 
+        userService.save(userCreationRequest);
+
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("status", HttpStatus.CREATED.value());
         result.put("message", "user created successfully");
-        result.put("data", userService.save(userCreationRequest));
+        result.put("data", "");
+
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Import user by excel", description = "API import users to db")
+    @PostMapping("/import")
+    @PreAuthorize("hasAnyAuthority('sysadmin', 'admin')")
+    public ResponseEntity<Object> importUsers(@RequestParam("file") MultipartFile file
+    ) {
+        log.info("Import users from file");
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", HttpStatus.CREATED.value());
+        result.put("message", "user created successfully");
+        result.put("data", userService.importUsersFromFile(file));
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
