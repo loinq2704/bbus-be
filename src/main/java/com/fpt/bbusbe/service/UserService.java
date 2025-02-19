@@ -1,11 +1,15 @@
 package com.fpt.bbusbe.service;
 
+import com.fpt.bbusbe.model.entity.User;
 import com.fpt.bbusbe.model.request.UserCreationRequest;
 import com.fpt.bbusbe.model.request.UserPasswordRequest;
 import com.fpt.bbusbe.model.request.UserUpdateRequest;
 import com.fpt.bbusbe.model.response.UserPageResponse;
 import com.fpt.bbusbe.model.response.UserResponse;
 import jakarta.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -17,7 +21,9 @@ public interface UserService {
 
     UserResponse findByEmail(String email);
 
-    Long save(UserCreationRequest req);
+    User save(UserCreationRequest req);
+
+    List<User> importUsersFromFile(MultipartFile file);
 
     void update(UserUpdateRequest req);
 
