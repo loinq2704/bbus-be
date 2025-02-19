@@ -10,7 +10,6 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -37,48 +36,48 @@ public class JwtServiceImpl implements JwtService {
     private String refreshKey;
 
     @Override
-    public String generateAccessToken(String username, Long userId, List<String> authorities) {
+    public String generateAccessToken(String phone, Long userId, List<String> authorities) {
         log.info("Generate access token for user {} with authorities {}", authorities);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", authorities);
 
-        return generateToken(claims, username, userId);
+        return generateToken(claims, phone, userId);
     }
 
     @Override
-    public String generateRefreshToken(String username, Long userId, List<String> authorities) {
+    public String generateRefreshToken(String phone, Long userId, List<String> authorities) {
         log.info("Generate refresh token");
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", authorities);
 
-        return generateRefreshToken(claims, username, userId);
+        return generateRefreshToken(claims, phone, userId);
     }
 
     @Override
-    public String extractUsername(String token, TokenType type) {
+    public String extractPhone(String token, TokenType type) {
         return extractClaim(token, type, Claims::getSubject);
     }
 
-    private String generateToken(Map<String, Object> claims, String username, Long userId) {
+    private String generateToken(Map<String, Object> claims, String phone, Long userId) {
         log.info("----------[ generateToken ]----------");
         return Jwts.builder()
                 .setClaims(claims)
                 .claim("userId", userId)
-                .setSubject(username)
+                .setSubject(phone)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * expiryMinutes))
                 .signWith(getKey(ACCESS_TOKEN), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    private String generateRefreshToken(Map<String, Object> claims, String username, Long userId) {
+    private String generateRefreshToken(Map<String, Object> claims, String phone, Long userId) {
         log.info("----------[ generateRefreshToken ]----------");
         return Jwts.builder()
                 .setClaims(claims)
                 .claim("userId", userId)
-                .setSubject(username)
+                .setSubject(phone)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * expiryDay))
                 .signWith(getKey(REFRESH_TOKEN), SignatureAlgorithm.HS256)

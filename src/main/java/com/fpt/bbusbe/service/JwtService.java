@@ -1,16 +1,14 @@
 package com.fpt.bbusbe.service;
 
 import com.fpt.bbusbe.model.enums.TokenType;
-import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface JwtService {
 
-    String generateAccessToken(String username, Long userId, List<String> authorities);
+    String generateAccessToken(String phone, Long userId, List<String> authorities);
 
-    String generateRefreshToken(String username, Long userId, List<String> authorities);
+    String generateRefreshToken(String phone, Long userId, List<String> authorities);
 
-    String extractUsername(String token, TokenType type);
+    String extractPhone(String token, TokenType type);
 }
