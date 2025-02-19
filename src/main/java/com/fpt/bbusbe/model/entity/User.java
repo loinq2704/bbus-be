@@ -102,4 +102,12 @@ public class User extends AbstractEntity<Long> implements UserDetails, Serializa
     public boolean isEnabled() {
         return UserStatus.ACTIVE.equals(status);
     }
+
+    // get roles name
+    public List<String> getRoleNames() {
+        return roles.stream()
+                .map(UserHasRole::getRole)
+                .map(Role::getName)
+                .toList();
+    }
 }

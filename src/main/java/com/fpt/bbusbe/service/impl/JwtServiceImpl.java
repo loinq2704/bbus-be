@@ -37,23 +37,23 @@ public class JwtServiceImpl implements JwtService {
     private String refreshKey;
 
     @Override
-    public String generateAccessToken(String username, List<String> authorities) {
+    public String generateAccessToken(String username, Long userId, List<String> authorities) {
         log.info("Generate access token for user {} with authorities {}", authorities);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", authorities);
 
-        return generateToken(claims, username);
+        return generateToken(claims, username, userId);
     }
 
     @Override
-    public String generateRefreshToken(String username, List<String> authorities) {
+    public String generateRefreshToken(String username, Long userId, List<String> authorities) {
         log.info("Generate refresh token");
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", authorities);
 
-        return generateRefreshToken(claims, username);
+        return generateRefreshToken(claims, username, userId);
     }
 
     @Override
@@ -61,10 +61,11 @@ public class JwtServiceImpl implements JwtService {
         return extractClaim(token, type, Claims::getSubject);
     }
 
-    private String generateToken(Map<String, Object> claims, String username) {
+    private String generateToken(Map<String, Object> claims, String username, Long userId) {
         log.info("----------[ generateToken ]----------");
         return Jwts.builder()
                 .setClaims(claims)
+                .claim("userId", userId)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * expiryMinutes))
@@ -72,10 +73,11 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
-    private String generateRefreshToken(Map<String, Object> claims, String username) {
+    private String generateRefreshToken(Map<String, Object> claims, String username, Long userId) {
         log.info("----------[ generateRefreshToken ]----------");
         return Jwts.builder()
                 .setClaims(claims)
+                .claim("userId", userId)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * expiryDay))
