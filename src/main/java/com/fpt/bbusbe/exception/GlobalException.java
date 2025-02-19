@@ -47,7 +47,7 @@ public class GlobalException {
                                               "status": 403,
                                               "path": "/api/v1/...",
                                               "error": "Unauthorized",
-                                              "message": "Unauthorized: username or password is invalid",
+                                              "message": "Unauthorized: phone or password is invalid",
                                             }
                                             """
                             ))})
@@ -58,7 +58,7 @@ public class GlobalException {
         errorResponse.setPath(request.getDescription(false).replace("uri=", ""));
         errorResponse.setStatus(UNAUTHORIZED.value());
         errorResponse.setError(UNAUTHORIZED.getReasonPhrase());
-        errorResponse.setMessage("Unauthorized: username or password is invalid");
+        errorResponse.setMessage("Unauthorized: phone or password is invalid");
 
         return errorResponse;
     }

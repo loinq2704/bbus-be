@@ -4,11 +4,10 @@ import com.fpt.bbusbe.model.enums.Gender;
 import com.fpt.bbusbe.model.enums.UserStatus;
 import com.fpt.bbusbe.model.enums.UserType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,6 +29,34 @@ public class User extends AbstractEntity<Long> implements UserDetails, Serializa
     @Column(length = 255)
     private String password;
 
+    /**
+     * Phone number validation for Vietnam's mobile carriers.
+     *
+     * - Starts with an optional '0' (e.g., 0912345678 or 912345678 are both valid)
+     * - Follows with one of the valid prefixes:
+     *     - 3[2-9]: Numbers starting from 32 to 39
+     *     - 5[6|8|9]: Numbers starting with 56, 58, or 59
+     *     - 7[0|6-9]: Numbers starting with 70 or from 76 to 79
+     *     - 8[0-6|8|9]: Numbers starting from 80 to 86, or 88, 89
+     *     - 9[0-4|6-9]: Numbers starting from 90 to 94, or from 96 to 99
+     * - Ends with 7 more digits (total 10 digits if starting with '0')
+     *
+     * Examples of valid phone numbers:
+     * - 0912345678
+     * - 84912345678
+     * - 0321234567
+     * - 0851234567
+     *
+     * Examples of invalid phone numbers:
+     * - 0112345678 (Invalid prefix)
+     * - 0951234567 (Prefix 95 is not allowed)
+     * - 032123456 (Less than required 10 digits)
+     */
+    @Pattern(regexp = "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$",
+            message = "Invalid phone number")
+    @Column(unique = true, nullable = false, length = 15)
+    private String phone;
+
     @Column(length = 255)
     private String name;
 
@@ -47,9 +74,6 @@ public class User extends AbstractEntity<Long> implements UserDetails, Serializa
 
     @Column(length = 255)
     private String avatar;
-
-    @Column(length = 15)
-    private String phone;
 
     @Column(length = 255)
     private String address;

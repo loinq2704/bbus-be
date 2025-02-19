@@ -11,11 +11,9 @@ import com.fpt.bbusbe.service.AuthenticationService;
 import com.fpt.bbusbe.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -40,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         List<String> authorities = new ArrayList<>();
         try {
             // Thực hiện xác thực với username và password
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getPhone(), request.getPassword()));
 
             log.info("isAuthenticated = {}", authenticate.isAuthenticated());
             log.info("Authorities: {}", authenticate.getAuthorities().toString());
@@ -53,15 +51,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new InternalAuthenticationServiceException(e.getMessage());
         }
 
-//        String accessToken = jwtService.generateAccessToken(request.getUsername(), authorities);
-//        String refreshToken = jwtService.generateRefreshToken(request.getUsername(), authorities);
-//
-//        return TokenResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+        User user = userRepository.findByPhone(request.getPhone());
 
-        User user = userRepository.findByUsername(request.getUsername());
-
-        String accessToken = jwtService.generateAccessToken(request.getUsername(), user.getId(), authorities);
-        String refreshToken = jwtService.generateRefreshToken(request.getUsername(), user.getId(), authorities);
+        String accessToken = jwtService.generateAccessToken(request.getPhone(), user.getId(), authorities);
+        String refreshToken = jwtService.generateRefreshToken(request.getPhone(), user.getId(), authorities);
         String message = "Login successful";
 
         return LoginResponse.builder().access_token(accessToken).refresh_token(refreshToken).message(message).build();
@@ -77,15 +70,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         try {
             // Verify token
-            String userName = jwtService.extractUsername(refreshToken, REFRESH_TOKEN);
+            String phone = jwtService.extractPhone(refreshToken, REFRESH_TOKEN);
 
             // check user is active or inactivated
-            User user = userRepository.findByUsername(userName);
+            User user = userRepository.findByPhone(phone);
             List<String> authorities = new ArrayList<>();
             user.getAuthorities().forEach(authority -> authorities.add(authority.getAuthority()));
 
             // generate new access token
-            String accessToken = jwtService.generateAccessToken(user.getUsername(), user.getId(), authorities);
+            String accessToken = jwtService.generateAccessToken(user.getPhone(), user.getId(), authorities);
 
             return TokenResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
         } catch (Exception e) {

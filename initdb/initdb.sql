@@ -49,6 +49,48 @@ CREATE TYPE public.usertype AS ENUM (
 );
 
 
+--
+-- Name: CAST (public.gender AS character varying); Type: CAST; Schema: -; Owner: -
+--
+
+CREATE CAST (public.gender AS character varying) WITH INOUT AS IMPLICIT;
+
+
+--
+-- Name: CAST (public.userstatus AS character varying); Type: CAST; Schema: -; Owner: -
+--
+
+CREATE CAST (public.userstatus AS character varying) WITH INOUT AS IMPLICIT;
+
+
+--
+-- Name: CAST (public.usertype AS character varying); Type: CAST; Schema: -; Owner: -
+--
+
+CREATE CAST (public.usertype AS character varying) WITH INOUT AS IMPLICIT;
+
+
+--
+-- Name: CAST (character varying AS public.gender); Type: CAST; Schema: -; Owner: -
+--
+
+CREATE CAST (character varying AS public.gender) WITH INOUT AS IMPLICIT;
+
+
+--
+-- Name: CAST (character varying AS public.userstatus); Type: CAST; Schema: -; Owner: -
+--
+
+CREATE CAST (character varying AS public.userstatus) WITH INOUT AS IMPLICIT;
+
+
+--
+-- Name: CAST (character varying AS public.usertype); Type: CAST; Schema: -; Owner: -
+--
+
+CREATE CAST (character varying AS public.usertype) WITH INOUT AS IMPLICIT;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -365,13 +407,14 @@ COPY public.tbl_role_has_permission (id, permission_id, role_id, created_at, upd
 --
 
 COPY public.tbl_user (dob, created_at, id, updated_at, phone, address, avatar, email, name, password, username, gender, status, type) FROM stdin;
-2000-02-04	2025-02-15 16:11:34.237	2	2025-02-15 16:11:34.237	string	\N	\N	parent@gmail.com	parent	$2a$10$F6UdD9COpdExAtPap4SD8.J7flrWEBQG68437TUTDoC.6E/uYNMju	parent	\N	ACTIVE	\N
-2000-02-04	2025-02-15 16:11:19.907	1	2025-02-15 16:11:19.907	string	\N	\N	sysadmin@gmail.com	sysadmin	$2a$10$A0TsI6LQXRTz4sEMm/e3Xeknm03B2vvpbXIvEStrcySXXoPbqqULe	sysadmin	\N	ACTIVE	\N
-2000-02-04	2025-02-15 16:12:04.71	4	2025-02-15 16:12:04.71	string	\N	\N	busdriver@gmail.com	busdriver	$2a$10$tItfoi1dzxgscgUb4yzQ0.kTFwpzG0DHwMyaQEnMqUVHT5mc6UuNy	busdriver	\N	ACTIVE	\N
-2000-02-04	2025-02-15 16:12:17.696	5	2025-02-15 16:12:17.696	string	\N	\N	admin@gmail.com	admin	$2a$10$haY87NZT4E5bBwE75BoyT.kSdLnlRLNxjDHNwm6KErBxpWrbaythu	admin	\N	ACTIVE	\N
-2000-02-04	2025-02-15 16:12:41.14	6	2025-02-16 21:55:02.933	string	\N	\N	assistantdriver@gmail.com	assistantdriver	$2a$10$oHOl1svYNE17uXm0DqI9EuVZrpBvSZMY9ncIIxInAMb91X6Oo.MVe	assistantdriver	\N	ACTIVE	\N
-2000-02-04	2025-02-15 16:11:46.89	3	2025-02-16 21:57:08.854	string	\N	\N	teacher@gmail.com	teacher	$2a$10$qp5dTiun.m1SMNjZSHoBUutm2tumkW9d63QEfZgYkcJXW9BG/naG.	teacher	\N	ACTIVE	\N
-2025-02-16	2025-02-16 18:50:47.038	7	2025-02-16 18:50:47.038	string	string	string	parent111@gmail.com	string	$2a$10$Zy8NnfgH5VBJZRB3voInm.t0AC0gp1bVA2AamSZg/Zr6RqXhp1.Iu	parent111	MALE	ACTIVE	USER
+2000-02-04	2025-02-15 16:11:19.907	1	2025-02-15 16:11:19.907	0912345671	72 An Dương	string	sysadmin@gmail.com	sysadmin	$2a$10$A0TsI6LQXRTz4sEMm/e3Xeknm03B2vvpbXIvEStrcySXXoPbqqULe	sysadmin	OTHER	ACTIVE	SYSADMIN
+2000-02-04	2025-02-15 16:11:34.237	2	2025-02-15 16:11:34.237	0912345672	72 An Dương	string	parent@gmail.com	parent	$2a$10$F6UdD9COpdExAtPap4SD8.J7flrWEBQG68437TUTDoC.6E/uYNMju	parent	FEMALE	ACTIVE	USER
+2000-02-04	2025-02-15 16:12:04.71	4	2025-02-15 16:12:04.71	0912345674	72 An Dương	string	busdriver@gmail.com	busdriver	$2a$10$tItfoi1dzxgscgUb4yzQ0.kTFwpzG0DHwMyaQEnMqUVHT5mc6UuNy	busdriver	MALE	ACTIVE	USER
+2000-02-04	2025-02-15 16:12:41.14	6	2025-02-16 21:55:02.933	0912345676	72 An Dương	string	assistantdriver@gmail.com	assistantdriver	$2a$10$oHOl1svYNE17uXm0DqI9EuVZrpBvSZMY9ncIIxInAMb91X6Oo.MVe	assistantdriver	MALE	ACTIVE	USER
+2000-02-04	2025-02-15 16:11:46.89	3	2025-02-16 21:57:08.854	0912345673	72 An Dương	string	teacher@gmail.com	teacher	$2a$10$qp5dTiun.m1SMNjZSHoBUutm2tumkW9d63QEfZgYkcJXW9BG/naG.	teacher	MALE	ACTIVE	USER
+2025-02-16	2025-02-16 18:55:31.296	8	2025-02-16 18:55:31.297	0912345678	72 An Dương	string	parent1@gmail.com	parent1	$2a$10$zwFhfJhfhiXweLUHr6JATu37bC8qurLaERjVv5HtK4JMPIH/P25AW	parent1	MALE	ACTIVE	USER
+2025-02-16	2025-02-16 18:50:47.038	7	2025-02-16 18:50:47.038	0912345677	72 An Dương	string	parent111@gmail.com	parent111	$2a$10$Zy8NnfgH5VBJZRB3voInm.t0AC0gp1bVA2AamSZg/Zr6RqXhp1.Iu	parent111	MALE	ACTIVE	USER
+2000-02-04	2025-02-15 16:12:17.696	5	2025-02-15 16:12:17.696	0912345675	72 An Dương	string	admin@gmail.com	admin	$2a$10$haY87NZT4E5bBwE75BoyT.kSdLnlRLNxjDHNwm6KErBxpWrbaythu	admin	MALE	ACTIVE	USER
 \.
 
 
@@ -387,6 +430,7 @@ COPY public.tbl_user_has_role (id, role_id, created_at, updated_at, user_id) FRO
 5	5	\N	\N	5
 6	6	\N	\N	6
 8	2	2025-02-16 18:50:47.043	2025-02-16 18:50:47.043	7
+9	2	2025-02-16 18:55:31.336	2025-02-16 18:55:31.336	8
 \.
 
 
@@ -429,14 +473,14 @@ SELECT pg_catalog.setval('public.tbl_role_id_seq', 7, false);
 -- Name: tbl_user_has_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.tbl_user_has_role_id_seq', 8, true);
+SELECT pg_catalog.setval('public.tbl_user_has_role_id_seq', 9, true);
 
 
 --
 -- Name: tbl_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.tbl_user_id_seq', 7, true);
+SELECT pg_catalog.setval('public.tbl_user_id_seq', 8, true);
 
 
 --

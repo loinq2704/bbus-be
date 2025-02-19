@@ -47,10 +47,10 @@ public class CustomizeRequestFilter extends OncePerRequestFilter {
         if (StringUtils.hasLength(authHeader) && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             log.info("token: {}...", token.substring(0, 15));
-            String username = "";
+            String phone = "";
             try {
-                username = jwtService.extractUsername(token, TokenType.ACCESS_TOKEN);
-                log.info("username: {}", username);
+                phone = jwtService.extractPhone(token, TokenType.ACCESS_TOKEN);
+                log.info("phone: {}", phone);
             } catch (AccessDeniedException e) {
                 log.info(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_OK);
@@ -60,7 +60,7 @@ public class CustomizeRequestFilter extends OncePerRequestFilter {
                 return;
             }
 
-            UserDetails user = serviceDetail.UserServiceDetail().loadUserByUsername(username);
+            UserDetails user = serviceDetail.UserServiceDetail().loadUserByUsername(phone);
 
             SecurityContext context = SecurityContextHolder.createEmptyContext();
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
