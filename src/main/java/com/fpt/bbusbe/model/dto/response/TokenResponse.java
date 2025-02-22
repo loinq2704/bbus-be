@@ -1,4 +1,4 @@
-package com.fpt.bbusbe.model.response;
+package com.fpt.bbusbe.model.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

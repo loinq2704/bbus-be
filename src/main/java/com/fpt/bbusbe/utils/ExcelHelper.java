@@ -1,10 +1,8 @@
 package com.fpt.bbusbe.utils;
 
 import com.fpt.bbusbe.model.enums.Role;
-import com.fpt.bbusbe.model.request.UserCreationRequest;
+import com.fpt.bbusbe.model.dto.request.UserCreationRequest;
 import com.fpt.bbusbe.model.enums.Gender;
-import com.fpt.bbusbe.model.enums.UserStatus;
-import com.fpt.bbusbe.model.enums.UserType;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.multipart.MultipartFile;
 

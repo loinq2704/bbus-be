@@ -1,4 +1,4 @@
-package com.fpt.bbusbe.model.response;
+package com.fpt.bbusbe.model.dto.response;
 
 import com.fpt.bbusbe.model.entity.UserHasRole;
 import com.fpt.bbusbe.model.enums.Gender;

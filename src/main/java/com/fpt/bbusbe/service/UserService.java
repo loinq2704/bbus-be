@@ -1,11 +1,11 @@
 package com.fpt.bbusbe.service;
 
 import com.fpt.bbusbe.model.entity.User;
-import com.fpt.bbusbe.model.request.UserCreationRequest;
-import com.fpt.bbusbe.model.request.UserPasswordRequest;
-import com.fpt.bbusbe.model.request.UserUpdateRequest;
-import com.fpt.bbusbe.model.response.UserPageResponse;
-import com.fpt.bbusbe.model.response.UserResponse;
+import com.fpt.bbusbe.model.dto.request.UserCreationRequest;
+import com.fpt.bbusbe.model.dto.request.UserPasswordRequest;
+import com.fpt.bbusbe.model.dto.request.UserUpdateRequest;
+import com.fpt.bbusbe.model.dto.response.UserPageResponse;
+import com.fpt.bbusbe.model.dto.response.UserResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 

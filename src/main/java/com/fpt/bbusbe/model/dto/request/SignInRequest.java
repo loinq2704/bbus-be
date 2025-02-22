@@ -1,4 +1,4 @@
-package com.fpt.bbusbe.model.request;
+package com.fpt.bbusbe.model.dto.request;
 
 import lombok.Getter;
 

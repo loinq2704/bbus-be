@@ -3,10 +3,10 @@ package com.fpt.bbusbe.controller;
 
 import com.fpt.bbusbe.exception.ForBiddenException;
 import com.fpt.bbusbe.model.entity.User;
-import com.fpt.bbusbe.model.request.UserCreationRequest;
-import com.fpt.bbusbe.model.request.UserPasswordRequest;
-import com.fpt.bbusbe.model.request.UserUpdateRequest;
-import com.fpt.bbusbe.model.response.UserResponse;
+import com.fpt.bbusbe.model.dto.request.UserCreationRequest;
+import com.fpt.bbusbe.model.dto.request.UserPasswordRequest;
+import com.fpt.bbusbe.model.dto.request.UserUpdateRequest;
+import com.fpt.bbusbe.model.dto.response.UserResponse;
 import com.fpt.bbusbe.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
