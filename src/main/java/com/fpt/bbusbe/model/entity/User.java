@@ -93,10 +93,6 @@ public class User extends AbstractEntity<Long> implements UserDetails, Serializa
     @JsonIgnore
     private Set<UserHasRole> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private Set<GroupHasUser> groups = new HashSet<>();
-
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
