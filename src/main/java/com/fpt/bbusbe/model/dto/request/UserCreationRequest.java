@@ -1,4 +1,4 @@
-package com.fpt.bbusbe.model.request;
+package com.fpt.bbusbe.model.dto.request;
 
 import com.fpt.bbusbe.model.enums.Gender;
 import com.fpt.bbusbe.model.enums.Role;

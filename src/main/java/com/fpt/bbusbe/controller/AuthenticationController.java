@@ -1,8 +1,8 @@
 package com.fpt.bbusbe.controller;
 
-import com.fpt.bbusbe.model.request.SignInRequest;
-import com.fpt.bbusbe.model.response.LoginResponse;
-import com.fpt.bbusbe.model.response.TokenResponse;
+import com.fpt.bbusbe.model.dto.request.SignInRequest;
+import com.fpt.bbusbe.model.dto.response.LoginResponse;
+import com.fpt.bbusbe.model.dto.response.TokenResponse;
 import com.fpt.bbusbe.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")

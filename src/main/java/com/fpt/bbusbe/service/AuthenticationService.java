@@ -1,9 +1,9 @@
 package com.fpt.bbusbe.service;
 
 
-import com.fpt.bbusbe.model.request.SignInRequest;
-import com.fpt.bbusbe.model.response.LoginResponse;
-import com.fpt.bbusbe.model.response.TokenResponse;
+import com.fpt.bbusbe.model.dto.request.SignInRequest;
+import com.fpt.bbusbe.model.dto.response.LoginResponse;
+import com.fpt.bbusbe.model.dto.response.TokenResponse;
 
 public interface AuthenticationService {
 
